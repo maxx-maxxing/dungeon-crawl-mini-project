@@ -1,0 +1,18 @@
+# CLion / IntelliJ
+.idea/
+
+# CMake build folders
+cmake-build-*/
+
+# Compiled files
+*.o
+*.out
+*.exe
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+
+# OS files
+.DS_Store
+Thumbs.db
