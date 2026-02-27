@@ -13,14 +13,32 @@ int main(void) {
     printf("Enter Name:\n");
     scanf("%s", name);
 
+    char tail;
     printf("Enter a five-digit number:\n");
-    //scanf("%d", &seed);
-    while (scanf("%d", &seed) != 1 || (seed < 10000) || (seed > 99999)) { // You can get input within the while. Pretty cool.
-        printf("Error: Please enter a five-digit number:\n");
-        while (getchar() != '\n'); // Clears buffer. Get more context on this later.
+    while (1) {
+        int returnValOfInput = scanf("%d%c", &seed, &tail);
+        if (returnValOfInput != 2) {
+            printf("Invalid input. Try again.\n");
+            printf("Enter a five-digit number:\n");
+            while (getchar() != '\n');
+            continue;
+        }
+        if (tail != '\n' && !isspace((unsigned char)tail)) {
+            printf("Invalid input. Try again.\n");
+            printf("Enter a five-digit number:\n");
+            while (getchar() != '\n');
+            continue;
+        }
+        if (seed < 10000 || seed > 99999) {
+            printf("Number must be five digits. Try again.\n");
+            printf("Enter a five-digit number:\n");
+            continue;
+        }
+        break;
     }
     srand(seed);
 
+    // FIXME: Apply same input handling to class selection below
     while (1) {
         printf("Choose your class:\n");
         printf("Enter '1' for Warrior:\n");
