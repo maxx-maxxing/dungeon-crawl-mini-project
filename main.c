@@ -1,6 +1,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 int main(void) {
@@ -8,6 +9,8 @@ int main(void) {
     int rooms;
     int seed;
     enum ClassChar {W = 1, M, R, C};
+    enum RoomType {COMBAT, TREASURE, SHOP, PUZZLE, BOSS};
+    enum Element {FIRE, ICE, LIGHTNING, NONE};
     int class;
 
     printf("Enter Name:\n");
@@ -36,9 +39,9 @@ int main(void) {
         }
         break;
     }
+
     srand(seed);
 
-    // FIXME: Apply same input handling to class selection below
     while (1) {
         printf("Choose your class:\n");
         printf("Enter '1' for Warrior:\n");
@@ -50,9 +53,13 @@ int main(void) {
             while (getchar() != '\n');
             continue;
         }
+
+        while (getchar() != '\n');
+
         if (class < 1 || class > 4) {
             printf("Invalid input. Try Again\n");
             continue;
+            // No need to flush buffer here
         }
         break;
     }
@@ -75,11 +82,38 @@ int main(void) {
             printf("Error. Could not select class");
     }
 
+    int numVowels = 0;
+    for (size_t i = 0; i < strlen(name); ++i) {
+        char ch = (char)tolower((unsigned char)name[i]);
+        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+            ++numVowels;
+        }
+    }
 
+    char tag[10];
+    (numVowels >= 3) ? strcpy(tag,"ARCANE") : strcpy(tag,"GRIT");
 
-
-
-
+    printf("=== CHARACTER SUMMARY ===\n");
+    printf("Name: %s\n", name);
+    printf("Class: ");
+    switch (classChar) {
+        case W:
+            printf("Warrior\n");
+            break;
+        case M:
+            printf("Mage\n");
+            break;
+        case R:
+            printf("Rogue\n");
+            break;
+        case C:
+            printf("Cleric\n");
+            break;
+        default:
+            printf("Error. Could not select class.\n");
+    }
+    printf("Tag: %s\n", tag);
+    printf("Seed: %d\n", seed);
 
     return 0;
 }
